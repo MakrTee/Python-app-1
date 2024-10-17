@@ -61,5 +61,9 @@ def add_timetable():
         return redirect(url_for('index'))
     return render_template('add_timetable.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+from sqlalchemy import inspect
+
+with app.app_context():
+    inspector = inspect(db.engine)
+    if not inspector.has_table('student'):
+        db.create_all()
